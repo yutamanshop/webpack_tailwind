@@ -38,19 +38,26 @@ module.exports = {
         ],
       },
       {
-        test: /\.(css|scss|sass)/,
+        test: /\.css$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: MiniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader',
             options: {
-              sourceMap: false,
+              url: false,
             },
           },
           {
-            loader: 'sass-loader',
+            loader: 'postcss-loader',
+            // options: {
+            //   postcssOptions: {
+            //     plugins: [
+            //       TailwindCSS
+            //     ]
+            //   }
+            // }
           },
         ],
       },
@@ -76,6 +83,37 @@ module.exports = {
         ],
       },
       {
+        test: /\.(sass|scss)$/,
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              url: false,
+              sourceMap: true,
+              importLoaders: 2
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            // options: {
+            //   postcssOptions: {
+            //     plugins: [
+            //       TailwindCSS,
+            //       [ 'autoprefixer', { grid: true } ],
+            //       [ 'cssnano', { preset: 'default' } ]
+            //     ],
+            //   },
+            // }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            },
+          },
+        ],
+      },
+      {
         test: /\.pug/,
         use: [
           {
@@ -90,7 +128,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: './stylesheets/main.css',
+      filename: './stylesheets/style.css',
     }),
     new HtmlWebpackPlugin({
       template: './src/templates/index.pug',
